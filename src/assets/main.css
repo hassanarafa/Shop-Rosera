@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+/* الـ Fonts اللي تليق على لوجو Floria */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+@theme {
+  /* ألوان Floria مستوحاة من اللوجو */
+  --color-floria-green: #7A9181;
+  --color-floria-pink: #E8DED8;
+  --color-floria-gold: #C5A059;
+  --color-floria-dark: #3A3F36;
+
+  /* تعريف الخطوط */
+  --font-serif: "Playfair Display", serif;
+  --font-sans: "Inter", sans-serif;
+}
+
+body {
+  @apply font-sans bg-white text-floria-dark antialiased;
+  margin: 0;
+}
+
+h1, h2, h3 {
+  @apply font-serif;
+}
