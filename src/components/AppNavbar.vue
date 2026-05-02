@@ -7,7 +7,7 @@
                     class="h-20 w-auto object-contain group-hover:scale-105 transition-transform duration-300" 
                 /> </router-link>
 
-            <div class="hidden md:flex gap-12 text-[11px] font-bold uppercase tracking-[0.2em] text-floria-dark">
+            <div class="flex gap-4 md:gap-12 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-floria-dark">
                 <router-link to="/products" class="hover:text-floria-green transition border-b border-transparent hover:border-floria-gold pb-1">Collections</router-link>
                 <router-link to="/products" class="hover:text-floria-green transition border-b border-transparent hover:border-floria-gold pb-1">New Arrivals</router-link>
                 <router-link to="/" class="hover:text-floria-green transition border-b border-transparent hover:border-floria-gold pb-1">Our Story</router-link>
