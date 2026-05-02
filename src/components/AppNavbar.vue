@@ -1,29 +1,46 @@
 <template>
     <nav class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-floria-pink/30">
-        <div class="container mx-auto px-6 h-28 flex items-center justify-between"> <router-link to="/" class="group flex items-center overflow-visible">
-                <img 
-                    src="@/assets/logo-swirl.png" 
-                    alt="Floria Logo" 
-                    class="h-20 w-auto object-contain group-hover:scale-105 transition-transform duration-300" 
-                /> </router-link>
+        <div class="container mx-auto px-6 h-28 flex items-center justify-between relative">
 
-            <div class="flex gap-4 md:gap-12 text-[10px] md:text-[11px] font-bold uppercase tracking-[0.2em] text-floria-dark">
-                <router-link to="/products" class="hover:text-floria-green transition border-b border-transparent hover:border-floria-gold pb-1">Collections</router-link>
-                <router-link to="/products" class="hover:text-floria-green transition border-b border-transparent hover:border-floria-gold pb-1">New Arrivals</router-link>
-                <router-link to="/" class="hover:text-floria-green transition border-b border-transparent hover:border-floria-gold pb-1">Our Story</router-link>
+            <!-- 1. Floria Logo (Left) -->
+            <router-link to="/" class="group flex items-center">
+                <img src="@\assets\logo-swirl.png" alt="Floria Logo" class="h-20 w-auto object-contain" />
+            </router-link>
+
+            <!-- 2. Three Dots Menu (Center) -->
+            <div class="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+                <button @click="isMenuOpen = !isMenuOpen"
+                    class="group flex flex-col gap-1 items-center justify-center p-4 hover:opacity-70 transition-all">
+                    <!-- الأيقونة: 3 نقاط عمودية أو أفقية بتصميم ناعم -->
+                    <span class="w-1 h-1 bg-floria-green rounded-full group-hover:scale-125 transition"></span>
+                    <span class="w-1 h-1 bg-floria-green rounded-full group-hover:scale-125 transition"></span>
+                    <span class="w-1 h-1 bg-floria-green rounded-full group-hover:scale-125 transition"></span>
+                </button>
+
+                <!-- Dropdown Menu -->
+                <transition name="fade">
+                    <div v-if="isMenuOpen"
+                        class="absolute top-full mt-2 w-48 bg-white border border-floria-pink/20 shadow-2xl rounded-xl p-4 z-50">
+                        <div class="flex flex-col gap-4 text-center">
+                            <router-link @click="isMenuOpen = false" to="/products"
+                                class="text-[10px] font-bold uppercase tracking-widest text-floria-dark hover:text-floria-green">Collections</router-link>
+                            <router-link @click="isMenuOpen = false" to="/products"
+                                class="text-[10px] font-bold uppercase tracking-widest text-floria-dark hover:text-floria-green">New
+                                Arrivals</router-link>
+                            <router-link @click="isMenuOpen = false" to="/"
+                                class="text-[10px] font-bold uppercase tracking-widest text-floria-dark hover:text-floria-green">Our
+                                Story</router-link>
+                        </div>
+                    </div>
+                </transition>
             </div>
 
-            <div class="flex items-center gap-8">
-                <button class="text-floria-green hover:text-floria-dark transition">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </button>
-                
+            <!-- 3. Basket (Right) -->
+            <div class="flex items-center gap-4">
                 <router-link to="/checkout" class="relative group flex items-center gap-2">
-                    <span class="text-[11px] font-bold uppercase text-floria-dark">Basket</span>
-                    <div class="bg-floria-green text-white text-[10px] w-6 h-6 rounded-full flex items-center justify-center font-bold shadow-md shadow-floria-green/20 group-hover:scale-110 transition">
+                    <span class="text-[11px] font-bold uppercase text-floria-dark hidden sm:inline">Basket</span>
+                    <div
+                        class="bg-floria-green text-white text-[10px] w-6 h-6 rounded-full flex items-center justify-center font-bold shadow-md shadow-floria-green/20">
                         0
                     </div>
                 </router-link>
@@ -32,9 +49,22 @@
     </nav>
 </template>
 
+<script setup>
+import { ref } from 'vue';
+
+// حالة فتح وإغلاق المنيو
+const isMenuOpen = ref(false);
+</script>
+
 <style scoped>
-/* إضافة لمسة انسيابية بسيطة */
-.router-link-active {
-    color: var(--color-floria-green);
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
 }
 </style>
