@@ -25,7 +25,7 @@
 
             <div class="w-full md:w-1/2 flex justify-center items-center mt-12 md:mt-0 relative">
                 <div class="absolute w-72 h-72 border border-floria-pink/50 rounded-full animate-pulse"></div>
-                <img src="@/assets/product1.jpeg" alt="Rosera Bottle"
+                <img src="@/assets/rosera.jpeg" alt="Rosera Bottle"
                     class="h-[500px] md:h-[650px] object-contain drop-shadow-2xl z-10" />
             </div>
         </section>
