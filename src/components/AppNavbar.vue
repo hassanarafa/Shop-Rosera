@@ -23,8 +23,7 @@
             <router-link to="/checkout" class="flex items-center gap-2 group z-[70]">
                 <div
                     class="text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500 group-hover:text-rose-500 transition">
-                    Basket</div>
-                <span class="text-[10px] font-medium text-stone-800">(0)</span>
+                    Dashboard</div>
             </router-link>
         </div>
     </nav>
@@ -37,7 +36,7 @@
 
             <!-- Content -->
             <div
-                class="relative w-full max-w-sm bg-stone-50 h-full shadow-2xl flex flex-col p-12 justify-center rounded-l-3xl border-l border-white">
+                class="relative w-full h-full bg-stone-50 shadow-2xl flex flex-col p-12 justify-center sm:max-w-sm sm:m-6 sm:rounded-3xl sm:border sm:border-white sm:h-[calc(100%-3rem)]">
 
                 <!-- Close Button -->
                 <button @click="isSidebarOpen = false" class="absolute top-10 right-10 group">
