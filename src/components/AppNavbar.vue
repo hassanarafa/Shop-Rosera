@@ -12,7 +12,7 @@
                 <span class="w-8 h-[1.5px] bg-stone-800 transition-all group-hover:w-5"></span>
             </button>
 
-            <router-link to="/checkout" class="text-[10px] font-bold uppercase tracking-widest text-stone-500">
+            <router-link to="/dashboard" class="text-[10px] font-bold uppercase tracking-widest text-stone-500">
                 Dashboard
             </router-link>
         </div>
