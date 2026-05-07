@@ -86,7 +86,6 @@ const navLinks = [
     opacity: 0;
 }
 
-/* تنظيف الروابط عند الـ Hover */
 nav a {
     position: relative;
 }
