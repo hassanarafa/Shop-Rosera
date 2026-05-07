@@ -11,14 +11,14 @@
                     <h2 class="text-xs uppercase tracking-[0.5em] font-bold text-rose-500 opacity-80">Introducing
                         the Blossom Collection</h2>
                     <h1 class="text-6xl md:text-8xl font-sans text-stone-800 leading-[1.1]">
-                        Rosera <br>
+                        Floria <br>
                         <span class="italic font-light text-rose-500 text-5xl md:text-7xl">Essence of Rose.</span>
                     </h1>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-6 justify-center md:justify-start">
                     <router-link to="/products"
                         class="bg-rose-500 text-white px-12 py-4 font-bold uppercase text-[10px] tracking-[0.2em] hover:bg-stone-800 transition-all duration-500 shadow-xl shadow-rose-500/20">
-                        Shop Rosera
+                        Shop Floria
                     </router-link>
                 </div>
             </div>
