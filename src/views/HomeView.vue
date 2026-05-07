@@ -12,7 +12,7 @@
                         the Blossom Collection</h2>
                     <h1 class="text-6xl md:text-8xl font-sans text-stone-800 leading-[1.1]">
                         Floria <br>
-                        <span class="italic font-light text-rose-500 text-5xl md:text-7xl">More than fragrance..</span>
+                        <span class="italic font-light text-rose-500 text-3xl md:text-5xl">More than fragrance..</span>
                     </h1>
                 </div>
                 <div class="flex flex-col sm:flex-row items-center gap-6 justify-center md:justify-start">
