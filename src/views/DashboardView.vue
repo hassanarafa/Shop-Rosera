@@ -34,6 +34,22 @@
                 </p>
             </header>
 
+            <!-- Mobile Navigation -->
+            <nav class="flex md:hidden gap-3 overflow-x-auto pb-4 mb-8">
+                <button @click="activeTab = 'overview'"
+                    :class="['px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm', activeTab === 'overview' ? 'bg-rose-500 text-white' : 'bg-white/70 text-stone-500 hover:text-stone-800 border border-white/50']">
+                    Overview
+                </button>
+                <button @click="activeTab = 'orders'"
+                    :class="['px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm', activeTab === 'orders' ? 'bg-rose-500 text-white' : 'bg-white/70 text-stone-500 hover:text-stone-800 border border-white/50']">
+                    Orders
+                </button>
+                <button @click="activeTab = 'products'"
+                    :class="['px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all shadow-sm', activeTab === 'products' ? 'bg-rose-500 text-white' : 'bg-white/70 text-stone-500 hover:text-stone-800 border border-white/50']">
+                    Products
+                </button>
+            </nav>
+
             <!-- SECTION: OVERVIEW -->
             <section v-if="activeTab === 'overview'" class="space-y-10">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
