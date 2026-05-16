@@ -5,6 +5,9 @@ import { useCartStore } from '@/stores/cart';
 const cart = useCartStore();
 const searchQuery = ref('');
 
+const showSuccess = ref(false);
+const addedScent = ref('');
+
 const products = ref([
     {
         id: 1,
@@ -56,6 +59,18 @@ const products = ref([
     }
 ]);
 
+// --- New Function for Feedback ---
+const handleAddToCart = (product) => {
+    cart.addToCart(product);
+    addedScent.value = product.name;
+    showSuccess.value = true;
+
+    // Auto-hide notification after 3 seconds
+    setTimeout(() => {
+        showSuccess.value = false;
+    }, 3000);
+};
+
 const filteredProducts = computed(() => {
     const query = searchQuery.value.toLowerCase();
     return products.value.filter(product =>
@@ -66,8 +81,22 @@ const filteredProducts = computed(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-stone-50 pt-28 pb-24 px-6 md:px-12">
+    <div class="min-h-screen bg-stone-50 pt-28 pb-24 px-6 md:px-12 relative">
+
+        <!-- SUCCESS NOTIFICATION (TOAST) -->
+        <Transition enter-active-class="transform transition duration-300 ease-out"
+            enter-from-class="translate-y-10 opacity-0" enter-to-class="translate-y-0 opacity-100"
+            leave-active-class="transition duration-200 ease-in" leave-from-class="opacity-100"
+            leave-to-class="opacity-0">
+            <div v-if="showSuccess"
+                class="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-stone-800 text-white px-8 py-4 rounded-full shadow-2xl flex items-center gap-3">
+                <span class="text-rose-400">✨</span>
+                <span class="text-xs font-bold uppercase tracking-widest">{{ addedScent }} added to basket</span>
+            </div>
+        </Transition>
+
         <div class="max-w-7xl mx-auto">
+            <!-- Header Section -->
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-8">
                 <div class="space-y-3">
                     <h2 class="text-[10px] uppercase tracking-[0.5em] font-bold text-rose-500 opacity-80">The Art of
@@ -79,6 +108,7 @@ const filteredProducts = computed(() => {
                         floral grace.</p>
                 </div>
 
+                <!-- Search Bar -->
                 <div class="w-full md:w-96 relative group">
                     <input v-model="searchQuery" type="text" placeholder="Search by flower or scent note..."
                         class="w-full bg-white/70 backdrop-blur-xl border border-white/50 shadow-sm rounded-full py-4 pl-6 pr-12 text-sm outline-none focus:border-rose-300 focus:ring-2 focus:ring-rose-200/50 transition-all text-stone-700 font-medium placeholder:text-stone-400" />
@@ -90,11 +120,13 @@ const filteredProducts = computed(() => {
                 </div>
             </div>
 
+            <!-- Product Grid -->
             <div v-if="filteredProducts.length > 0"
                 class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
                 <div v-for="product in filteredProducts" :key="product.id"
                     class="group relative flex flex-col items-center text-center bg-white/40 backdrop-blur-xl p-6 rounded-[2rem] border border-white/50 shadow-sm hover:shadow-md transition-all duration-500">
 
+                    <!-- Out of Stock Overlay -->
                     <div v-if="!product.in_stock"
                         class="absolute inset-0 bg-stone-50/40 backdrop-blur-[2px] flex items-center justify-center z-20 rounded-[2rem]">
                         <span
@@ -103,26 +135,27 @@ const filteredProducts = computed(() => {
                         </span>
                     </div>
 
+                    <!-- Image Container -->
                     <div
                         class="aspect-[4/5] w-full mb-8 flex items-center justify-center overflow-hidden bg-rose-50/50 border border-rose-100/50 rounded-[1.5rem] relative transition-all duration-500 group-hover:bg-rose-50">
                         <img src="@/assets/logo.svg" class="absolute h-1/2 opacity-[0.04] pointer-events-none" />
-
                         <img :src="product.image"
                             class="h-[80%] object-contain transition-all duration-700 z-10 mix-blend-multiply group-hover:scale-110 group-hover:-rotate-2" />
                     </div>
 
+                    <!-- Details -->
                     <div class="space-y-2 px-2 w-full">
                         <h3 class="font-serif text-3xl text-stone-800 leading-tight">{{ product.name }}</h3>
-                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-[0.3em] opacity-80 mt-2">
-                            {{ product.notes }}
-                        </p>
+                        <p class="text-rose-500 text-[10px] font-bold uppercase tracking-[0.3em] opacity-80 mt-2">{{
+                            product.notes }}</p>
 
                         <div class="mt-6 flex flex-col items-center gap-4">
-                            <span class="font-serif italic text-2xl text-stone-700">{{ product.price }}
-                                <span class="text-lg text-rose-500 font-light">EGP</span>
-                            </span>
-                            <button @click="cart.addToCart(product)" :disabled="!product.in_stock"
-                                class="w-full mt-2 bg-rose-500 text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 disabled:opacity-50 disabled:hover:bg-rose-500 transition-all duration-500 shadow-xl shadow-rose-500/20">
+                            <span class="font-serif italic text-2xl text-stone-700">{{ product.price }} <span
+                                    class="text-lg text-rose-500 font-light">EGP</span></span>
+
+                            <!-- Updated Button with handleAddToCart -->
+                            <button @click="handleAddToCart(product)" :disabled="!product.in_stock"
+                                class="w-full mt-2 bg-rose-500 text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 disabled:opacity-50 disabled:hover:bg-rose-500 transition-all duration-500 shadow-xl shadow-rose-500/20 active:scale-95">
                                 Add to Basket
                             </button>
                         </div>
@@ -130,6 +163,7 @@ const filteredProducts = computed(() => {
                 </div>
             </div>
 
+            <!-- No Results -->
             <div v-else class="py-20 text-center space-y-6">
                 <p class="font-serif italic text-3xl text-stone-400">No fragrances match your search...</p>
                 <button @click="searchQuery = ''"
