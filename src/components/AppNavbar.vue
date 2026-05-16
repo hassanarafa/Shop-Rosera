@@ -71,7 +71,7 @@ const isSidebarOpen = ref(false);
 const navLinks = [
     { name: 'Collections', path: '/products' },
     { name: 'New Arrivals', path: '/new-arrivals' },
-    { name: 'Our Story', path: '/' }
+    { name: 'Our Story', path: '/our-story' }
 ];
 </script>
 

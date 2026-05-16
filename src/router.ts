@@ -7,7 +7,10 @@ const router = createRouter({
         { path: '/', component: HomeView },
         { path: '/products', component: () => import('./views/ProductsView.vue') },
         { path: '/new-arrivals', component: () => import('./views/NewArrivalsView.vue') },
-        { path: '/dashboard', component: () => import('./views/DashboardView.vue') }
+        { path: '/dashboard', component: () => import('./views/DashboardView.vue') },
+        { path: '/our-story', component: () => import('./views/OurStoryView.vue') },
+        { path: '/product/:id', component: () => import('./views/ProductDetail.vue') },
+        { path: '/:pathMatch(.*)*', redirect: '/' }
     ]
 })
 

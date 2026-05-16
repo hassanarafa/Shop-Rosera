@@ -136,16 +136,20 @@ const filteredProducts = computed(() => {
                     </div>
 
                     <!-- Image Container -->
-                    <div
+                    <router-link :to="'/product/' + product.id"
                         class="aspect-[4/5] w-full mb-8 flex items-center justify-center overflow-hidden bg-rose-50/50 border border-rose-100/50 rounded-[1.5rem] relative transition-all duration-500 group-hover:bg-rose-50">
                         <img src="@/assets/logo.svg" class="absolute h-1/2 opacity-[0.04] pointer-events-none" />
                         <img :src="product.image"
                             class="h-[80%] object-contain transition-all duration-700 z-10 mix-blend-multiply group-hover:scale-110 group-hover:-rotate-2" />
-                    </div>
+                    </router-link>
 
                     <!-- Details -->
                     <div class="space-y-2 px-2 w-full">
-                        <h3 class="font-serif text-3xl text-stone-800 leading-tight">{{ product.name }}</h3>
+                        <router-link :to="'/product/' + product.id">
+                            <h3
+                                class="font-serif text-3xl text-stone-800 leading-tight hover:text-rose-500 transition-colors">
+                                {{ product.name }}</h3>
+                        </router-link>
                         <p class="text-rose-500 text-[10px] font-bold uppercase tracking-[0.3em] opacity-80 mt-2">{{
                             product.notes }}</p>
 
