@@ -1,5 +1,5 @@
 <template>
-    <div class="flex min-h-screen bg-stone-50 pt-28 pb-12 px-6 md:px-12 gap-8 md:gap-12">
+    <div v-if="isAuthenticated" class="flex min-h-screen bg-stone-50 pt-28 pb-12 px-6 md:px-12 gap-8 md:gap-12">
         <!-- 1. Sidebar -->
         <aside
             class="w-64 bg-white/70 backdrop-blur-xl border border-white/50 rounded-[2rem] hidden md:block sticky top-28 h-[calc(100vh-144px)] shadow-sm">
@@ -18,6 +18,11 @@
                     <button @click="activeTab = 'products'" :class="tabClass('products')">
                         <span class="w-2 h-2 rounded-full border border-current mr-3 transition-all"
                             :class="activeTab === 'products' ? 'bg-rose-500' : ''"></span> Products
+                    </button>
+                </nav>
+                <nav class="mt-10 pt-6 border-t border-stone-100">
+                    <button @click="handleLogout" :class="tabClass('logout')">
+                        <span class="w-2 h-2 rounded-full border border-current mr-3"></span> Logout
                     </button>
                 </nav>
             </div>
@@ -139,7 +144,7 @@
                                     </td>
                                     <td class="p-6 text-sm text-stone-600">
                                         {{ order.product }} <span class="text-rose-500 font-bold ml-1">x{{ order.qty
-                                            }}</span>
+                                        }}</span>
                                     </td>
                                     <td class="p-6 font-medium text-stone-800">
                                         {{ (order.price * order.qty).toLocaleString() }} <span
@@ -210,7 +215,7 @@
                         </svg>
                     </button>
                     <h3 class="text-2xl font-serif text-stone-800 mb-6">{{ isEditing ? 'Edit Product' : 'Add NewProduct'
-                    }}</h3>
+                        }}</h3>
                     <form @submit.prevent="saveProduct" class="space-y-4">
                         <div>
                             <label
@@ -244,11 +249,42 @@
             </div>
         </Transition>
     </div>
+
+    <!-- Login Screen -->
+    <div v-else class="min-h-screen bg-stone-50 flex items-center justify-center p-6">
+        <div class="w-full max-w-sm">
+            <form @submit.prevent="handleLogin"
+                class="bg-white/70 backdrop-blur-xl p-8 md:p-12 rounded-[2rem] border border-white/50 shadow-sm text-center space-y-6">
+                <h1 class="font-serif text-3xl text-stone-800">Admin Access</h1>
+                <p class="text-sm text-stone-500 font-serif italic">
+                    Please enter the password to manage Floria.
+                </p>
+                <div>
+                    <input v-model="passwordInput" type="password" placeholder="Password" required
+                        class="w-full text-center bg-stone-50 border border-stone-200 rounded-xl px-4 py-3 outline-none focus:border-rose-300 focus:ring-1 focus:ring-rose-300 text-sm">
+                    <p v-if="loginError" class="text-rose-500 text-xs mt-2">Incorrect password. Please try again.</p>
+                </div>
+                <button type="submit"
+                    class="w-full bg-rose-500 text-white px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-stone-800 transition-all duration-500 shadow-xl shadow-rose-500/20">
+                    Login
+                </button>
+            </form>
+        </div>
+    </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
+// --- Authentication Logic ---
+const isAuthenticated = ref(false);
+const passwordInput = ref('');
+const loginError = ref(false);
+// IMPORTANT: For better security, store this password in an environment variable
+// instead of hardcoding it in the source code.
+const ADMIN_PASSWORD = 'password123';
+
+// --- Component State ---
 const activeTab = ref('overview');
 
 // Order Filtering
@@ -266,6 +302,28 @@ const filterButtonClass = (status) => {
     const active = 'text-rose-500 border-rose-500';
     const inactive = 'text-stone-400 border-transparent hover:text-stone-800 hover:border-stone-300';
     return base + (orderStatusFilter.value === status ? active : inactive);
+};
+
+onMounted(() => {
+    // Check if the user is already authenticated from a previous session
+    if (localStorage.getItem('floria_admin_auth') === 'true') {
+        isAuthenticated.value = true;
+    }
+});
+
+const handleLogin = () => {
+    if (passwordInput.value === ADMIN_PASSWORD) {
+        isAuthenticated.value = true;
+        loginError.value = false;
+        localStorage.setItem('floria_admin_auth', 'true'); // Persist auth state
+    } else {
+        loginError.value = true;
+    }
+};
+
+const handleLogout = () => {
+    localStorage.removeItem('floria_admin_auth');
+    isAuthenticated.value = false;
 };
 
 const orders = ref([

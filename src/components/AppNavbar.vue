@@ -12,8 +12,9 @@
                 <span class="w-8 h-[1.5px] bg-stone-800 transition-all group-hover:w-5"></span>
             </button>
 
-            <router-link to="/dashboard" class="text-[10px] font-bold uppercase tracking-widest text-stone-500">
-                Dashboard
+            <router-link to="/dashboard"
+                class="text-[10px] font-bold uppercase tracking-widest text-stone-500 hover:text-stone-800 transition-colors">
+                Terminal
             </router-link>
         </div>
     </nav>
@@ -51,7 +52,7 @@
 
                     <div class="my-6 mx-4 border-t border-stone-100"></div>
 
-                    <router-link to="/admin/dashboard" @click="isSidebarOpen = false"
+                    <router-link to="/dashboard" @click="isSidebarOpen = false"
                         class="flex items-center gap-3 px-4 py-2 text-stone-400 hover:text-stone-900 transition group">
                         <div class="w-1.5 h-1.5 rounded-full bg-stone-200 group-hover:bg-rose-500 transition-colors">
                         </div>
