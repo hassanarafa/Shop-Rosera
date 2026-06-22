@@ -73,10 +73,21 @@
             </section>
 
             <!-- SECTION: ORDERS -->
-            <section v-if="activeTab === 'orders'">
+            <section v-if="activeTab === 'orders'" class="space-y-6">
+                <!-- Order Filters -->
+                <div class="flex gap-8 border-b border-stone-100">
+                    <button @click="orderStatusFilter = 'all'" :class="filterButtonClass('all')">All</button>
+                    <button @click="orderStatusFilter = 'pending'"
+                        :class="filterButtonClass('pending')">Pending</button>
+                    <button @click="orderStatusFilter = 'confirmed'"
+                        :class="filterButtonClass('confirmed')">Confirmed</button>
+                    <button @click="orderStatusFilter = 'delivered'"
+                        :class="filterButtonClass('delivered')">Delivered</button>
+                </div>
+
                 <!-- Mobile Card View -->
                 <div class="md:hidden space-y-4">
-                    <div v-for="order in orders" :key="order.id"
+                    <div v-for="order in filteredOrders" :key="order.id"
                         class="bg-white/70 backdrop-blur-xl rounded-[2rem] border border-white/50 shadow-sm p-6 space-y-4">
                         <div>
                             <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1">Client</p>
@@ -87,6 +98,10 @@
                             <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1">Order</p>
                             <p class="text-sm text-stone-600">{{ order.product }} <span
                                     class="text-rose-500 font-bold ml-1">x{{ order.qty }}</span></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1">Payment</p>
+                            <p class="font-bold text-stone-800">{{ (order.price * order.qty).toLocaleString() }} EGP</p>
                         </div>
                         <div class="flex items-center justify-between gap-4 pt-2 border-t border-stone-100">
                             <span :class="statusBadge(order.status)">{{ order.status }}</span>
@@ -109,12 +124,13 @@
                                 <tr class="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-400">
                                     <th class="p-6 font-medium">Client Info</th>
                                     <th class="p-6 font-medium">Product & Qty</th>
+                                    <th class="p-6 font-medium">Payment</th>
                                     <th class="p-6 font-medium">Status</th>
                                     <th class="p-6 text-right font-medium">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-stone-50">
-                                <tr v-for="order in orders" :key="order.id"
+                                <tr v-for="order in filteredOrders" :key="order.id"
                                     class="hover:bg-stone-50/50 transition-colors duration-300">
                                     <td class="p-6">
                                         <div class="font-bold text-stone-800">{{ order.client }}</div>
@@ -124,6 +140,10 @@
                                     <td class="p-6 text-sm text-stone-600">
                                         {{ order.product }} <span class="text-rose-500 font-bold ml-1">x{{ order.qty
                                             }}</span>
+                                    </td>
+                                    <td class="p-6 font-medium text-stone-800">
+                                        {{ (order.price * order.qty).toLocaleString() }} <span
+                                            class="text-sm text-rose-500 italic font-light">EGP</span>
                                     </td>
                                     <td class="p-6">
                                         <span :class="statusBadge(order.status)">{{ order.status }}</span>
@@ -231,10 +251,30 @@ import { ref, computed } from 'vue';
 
 const activeTab = ref('overview');
 
+// Order Filtering
+const orderStatusFilter = ref('all'); // 'all', 'pending', 'confirmed', 'delivered'
+
+const filteredOrders = computed(() => {
+    if (orderStatusFilter.value === 'all') {
+        return orders.value;
+    }
+    return orders.value.filter(order => order.status === orderStatusFilter.value);
+});
+
+const filterButtonClass = (status) => {
+    const base = 'pb-3 text-[11px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border-b-2 outline-none ';
+    const active = 'text-rose-500 border-rose-500';
+    const inactive = 'text-stone-400 border-transparent hover:text-stone-800 hover:border-stone-300';
+    return base + (orderStatusFilter.value === status ? active : inactive);
+};
+
 const orders = ref([
     { id: 1, client: 'Hassan Arafa', address: 'Tanta, Egypt', phone: '01012345678', product: 'Rosera', qty: 2, price: 650, status: 'pending' },
     { id: 2, client: 'Sarah Ahmed', address: 'Cairo, Egypt', phone: '01198765432', product: 'Stravia', qty: 1, price: 620, status: 'confirmed' },
     { id: 3, client: 'Omar Khaled', address: 'Alexandria, Egypt', phone: '01233445566', product: 'Aventor', qty: 3, price: 750, status: 'delivered' },
+    { id: 4, client: 'Fatima Ali', address: 'Giza, Egypt', phone: '01011223344', product: 'Pomberry', qty: 1, price: 620, status: 'pending' },
+    { id: 5, client: 'Youssef Ibrahim', address: 'Luxor, Egypt', phone: '01299887766', product: 'Golden Vanilla', qty: 2, price: 680, status: 'confirmed' },
+    { id: 6, client: 'Nour Mohamed', address: 'Aswan, Egypt', phone: '01155667788', product: 'Sugaria', qty: 1, price: 650, status: 'delivered' }
 ]);
 
 const products = ref([
