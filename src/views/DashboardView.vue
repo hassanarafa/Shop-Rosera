@@ -73,44 +73,73 @@
             </section>
 
             <!-- SECTION: ORDERS -->
-            <section v-if="activeTab === 'orders'"
-                class="bg-white/70 backdrop-blur-xl rounded-[2rem] border border-white/50 shadow-sm overflow-hidden p-2 md:p-4">
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left border-collapse">
-                        <thead class="border-b border-stone-100">
-                            <tr class="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-400">
-                                <th class="p-6 font-medium">Client Info</th>
-                                <th class="p-6 font-medium">Product & Qty</th>
-                                <th class="p-6 font-medium">Status</th>
-                                <th class="p-6 text-right font-medium">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-stone-50">
-                            <tr v-for="order in orders" :key="order.id"
-                                class="hover:bg-stone-50/50 transition-colors duration-300">
-                                <td class="p-6">
-                                    <div class="font-bold text-stone-800">{{ order.client }}</div>
-                                    <div class="text-xs text-stone-500 mt-1">{{ order.address }} <span
-                                            class="mx-1 text-stone-300">|</span> {{ order.phone }}</div>
-                                </td>
-                                <td class="p-6 text-sm text-stone-600">
-                                    {{ order.product }} <span class="text-rose-500 font-bold ml-1">x{{ order.qty
-                                    }}</span>
-                                </td>
-                                <td class="p-6">
-                                    <span :class="statusBadge(order.status)">{{ order.status }}</span>
-                                </td>
-                                <td class="p-6 text-right">
-                                    <select v-model="order.status"
-                                        class="text-[10px] font-bold uppercase tracking-widest border border-stone-200 rounded-xl px-3 py-2 outline-none focus:border-rose-300 focus:ring-1 focus:ring-rose-300 bg-transparent text-stone-600 transition-all cursor-pointer">
-                                        <option value="pending">Pending</option>
-                                        <option value="confirmed">Confirmed</option>
-                                        <option value="delivered">Delivered</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <section v-if="activeTab === 'orders'">
+                <!-- Mobile Card View -->
+                <div class="md:hidden space-y-4">
+                    <div v-for="order in orders" :key="order.id"
+                        class="bg-white/70 backdrop-blur-xl rounded-[2rem] border border-white/50 shadow-sm p-6 space-y-4">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1">Client</p>
+                            <p class="font-bold text-stone-800">{{ order.client }}</p>
+                            <p class="text-xs text-stone-500 mt-1">{{ order.address }} | {{ order.phone }}</p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] uppercase tracking-widest text-stone-400 font-bold mb-1">Order</p>
+                            <p class="text-sm text-stone-600">{{ order.product }} <span
+                                    class="text-rose-500 font-bold ml-1">x{{ order.qty }}</span></p>
+                        </div>
+                        <div class="flex items-center justify-between gap-4 pt-2 border-t border-stone-100">
+                            <span :class="statusBadge(order.status)">{{ order.status }}</span>
+                            <select v-model="order.status"
+                                class="text-[10px] font-bold uppercase tracking-widest border border-stone-200 rounded-xl px-3 py-2 outline-none focus:border-rose-300 focus:ring-1 focus:ring-rose-300 bg-transparent text-stone-600 transition-all cursor-pointer">
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="delivered">Delivered</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Desktop Table View -->
+                <div
+                    class="hidden md:block bg-white/70 backdrop-blur-xl rounded-[2rem] border border-white/50 shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="border-b border-stone-100">
+                                <tr class="text-[10px] uppercase tracking-[0.2em] font-bold text-stone-400">
+                                    <th class="p-6 font-medium">Client Info</th>
+                                    <th class="p-6 font-medium">Product & Qty</th>
+                                    <th class="p-6 font-medium">Status</th>
+                                    <th class="p-6 text-right font-medium">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-stone-50">
+                                <tr v-for="order in orders" :key="order.id"
+                                    class="hover:bg-stone-50/50 transition-colors duration-300">
+                                    <td class="p-6">
+                                        <div class="font-bold text-stone-800">{{ order.client }}</div>
+                                        <div class="text-xs text-stone-500 mt-1">{{ order.address }} <span
+                                                class="mx-1 text-stone-300">|</span> {{ order.phone }}</div>
+                                    </td>
+                                    <td class="p-6 text-sm text-stone-600">
+                                        {{ order.product }} <span class="text-rose-500 font-bold ml-1">x{{ order.qty
+                                            }}</span>
+                                    </td>
+                                    <td class="p-6">
+                                        <span :class="statusBadge(order.status)">{{ order.status }}</span>
+                                    </td>
+                                    <td class="p-6 text-right">
+                                        <select v-model="order.status"
+                                            class="text-[10px] font-bold uppercase tracking-widest border border-stone-200 rounded-xl px-3 py-2 outline-none focus:border-rose-300 focus:ring-1 focus:ring-rose-300 bg-transparent text-stone-600 transition-all cursor-pointer">
+                                            <option value="pending">Pending</option>
+                                            <option value="confirmed">Confirmed</option>
+                                            <option value="delivered">Delivered</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
 
@@ -161,7 +190,7 @@
                         </svg>
                     </button>
                     <h3 class="text-2xl font-serif text-stone-800 mb-6">{{ isEditing ? 'Edit Product' : 'Add NewProduct'
-                        }}</h3>
+                    }}</h3>
                     <form @submit.prevent="saveProduct" class="space-y-4">
                         <div>
                             <label
